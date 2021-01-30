@@ -28,7 +28,7 @@ class Card
 	}
    =end
 
-   def initialize(id, sym, col, shad, num) #added card id so player can identify which card they want to pick for the set
+   def initialize(id, sym, col, shad, num) #added card id so player can identify which card they want to pick for the set. I was thinking this could be a string like "Card1" or something
       @card_id = id
       @symbol = sym
       @color = col
