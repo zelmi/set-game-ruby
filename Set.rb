@@ -13,16 +13,20 @@ Players (Array of players)
 =end
 
 class Card
-	 = Symbol
+	 =begin
+	Symbol
 	  Color
 	  Shading
-	  Number=
+	  Number
+	=end
 	def toString
 		#to do but could we just use inpsect instead?
 	end
-   = toString {
+   = begin
+	toString {
 	    Function writes out the value of each card using reduce method
-   = }
+	}
+   =end
 
    def initialize(id, sym, col, shad, num) #added card id so player can identify which card they want to pick for the set
       @card_id = id
@@ -36,17 +40,21 @@ end
 
 
 class Player 
-	  =Identifier
+	  =begin
+	Identifier
 	  Score
-	  TimesWon=
+	  TimesWon
+	=end
 	def initialize(id, sc, time,)
 		@identity = id
 		@score = sc
 		@timeswon = time
 	end
 
-	 = Player() {
-	  }=
+	 =begin
+	 Player() {
+	  }
+	=end
 
 end
 
