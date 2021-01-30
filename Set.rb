@@ -11,7 +11,9 @@ CurrentCards (Array of currently used cards)
 CardsUsed (Array of previously used cards)
 Players (Array of players)
 =end
-
+$cards_available = []
+$current_cards = []
+$cards_used = []
 class Card
 	 =begin
 	Symbol
@@ -35,6 +37,14 @@ class Card
       @shading = shad
       @number = num
    end
+
+  	def ==(next)
+    		self.card_id  == next.card_id &&
+    		self.symbol == next.symbol &&
+		self.color == next.color &&
+		self.shading == next.shading &&
+		self.number == next.number
+  	end
 end
 
 
@@ -63,7 +73,27 @@ InitializePlayers(int num_players) do
 end
 
 ResetDeck() do
-  # set the global variable Deck to 12 random cards
+	colors = ["red", "blue", "green"]
+	symbols = ["diamond", "squiggle", "oval"]
+	shading = ["blank", "striped", "solid"]
+	numbers = ["one", "two", "three"]
+	 # set the global variable Deck to 12 random cards
+	#this is what i have but i haven't checked to see if it works
+	while current_cards.length < 12 do
+		sym = symbols.sample
+		col = colors.sample
+		shad = shading.sample
+		num = numbers.sample
+		current_cards.push(Card.new(nil, sym, col, shad, num))
+		unique_deck = current_cards.uniq.each{|card|, card.symbol, card.color, card.shading, card.number}
+		if unique_deck.length != current_cards.length
+			current_cards = unique_deck
+		end
+	end
+		for i in 1..12 do
+			current_cards[i].card_id = i
+		end
+		
 end
 
 IsSet(card_one, card_two, card_three) do
