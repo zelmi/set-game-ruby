@@ -12,37 +12,43 @@ CardsUsed (Array of previously used cards)
 Players (Array of players)
 =end
 
-=begin
-
-Class Card {
-	  Symbol
+class Card
+	 = Symbol
 	  Color
 	  Shading
-	  Number
-
-	  Card (sy, co, sh, nu){
-		  Assign each variable to one of the parameters
-    }
-
-    toString {
+	  Number=
+	def toString
+		
+	end
+   = toString {
 	    Function writes out the value of each card using reduce method
-    }
-}
+   = }
 
-=end
+   def initialize(id, sym, col, shad, num) #added card id so player can identify which card they want to pick for the set
+      @card_id = id
+      @symbol = sym
+      @color = col
+      @shading = shad
+      @number = num
+   end
+end
 
-=begin
 
-Class Player {
-	  Identifier
+
+class Player 
+	  =Identifier
 	  Score
-	  TimesWon
+	  TimesWon=
+	def initialize(id, sc, time,)
+		@identity = id
+		@score = sc
+		@timeswon = time
+	end
 
-	  Player() {
-	  }
-}
+	 = Player() {
+	  }=
 
-=end
+end
 
 InitializePlayers(int num_players) do
   # run a for loop adding players and their token to the game
