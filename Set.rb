@@ -18,7 +18,7 @@ class Card
 	  Shading
 	  Number=
 	def toString
-		
+		#to do but could we just use inpsect instead?
 	end
    = toString {
 	    Function writes out the value of each card using reduce method
