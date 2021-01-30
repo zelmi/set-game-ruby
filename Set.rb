@@ -22,7 +22,7 @@ class Card
 	def toString
 		#to do but could we just use inpsect instead?
 	end
-   = begin
+   =begin
 	toString {
 	    Function writes out the value of each card using reduce method
 	}
