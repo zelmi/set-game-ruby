@@ -16,6 +16,7 @@ $current_cards = []
 $cards_used = []
 class Card
 	 =begin
+	 #four numbers indicating each attribute
 	Symbol
 	Color
 	Shading
@@ -30,6 +31,7 @@ class Card
 	}
    =end
 
+   #creates a new card
    def initialize(id, sym, col, shad, num) #added card id so player can identify which card they want to pick for the set. I was thinking this could be an int like 1 and the actual number for the card would be a string like "two"
       @card_id = id
       @symbol = sym
@@ -68,6 +70,24 @@ class Player
 
 end
 
+# returns an array of however many cards needed
+# called at beginning of game to create original 81 card
+# then called by addThree function whenever needed
+InitializeCards(int num_cards) do
+	$i = 0
+
+	# initialize empty array 
+	newCards = Array.new num_cards , []
+
+	#continue adding cards to the array until num_cards is reached
+	while $i < $num_cards  do
+		#add new card returned from Card.initialize to array
+		newCards << Card.initialize ()
+		$i +=1
+	 end 
+
+  end
+
 InitializePlayers(int num_players) do
   # run a for loop adding players and their token to the game
 end
@@ -99,6 +119,8 @@ end
 isSet(Card one, Card two, Card three) do
   # checks if 2 cards have an attribute that the third doesn't share. If yes, not a set. Return false.
   # else return true
+  # Return statements necessary as they are much more useful in this situation than tracking  a variable
+  # Have confirmed acceptance from professor
 
 	unless(((one.symbol == two.symbol) && (two.symbol == three.symbol)) || ((one.symbol != two.symbol) && (two.symbol != three.symbol) && (three.symbol !=one.symbol))) 
 		return false
@@ -124,8 +146,9 @@ trackScores() do
   # track player scores
 end
 
+#returns an array of 3 cards to caller, to be added to callers existing array
 addThree() do
-  # the title. Needed in a lot of places
+	newCards = InitializeCards (3)
 end
 
 
