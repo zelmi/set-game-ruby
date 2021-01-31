@@ -17,9 +17,9 @@ $cards_used = []
 class Card
 	 =begin
 	Symbol
-	  Color
-	  Shading
-	  Number
+	Color
+	Shading
+	Number
 	=end
 	def toString
 		#to do but could we just use inpsect instead?
@@ -39,8 +39,8 @@ class Card
    end
 
   	def ==(next)
-    		self.card_id  == next.card_id &&
-    		self.symbol == next.symbol &&
+    	self.card_id  == next.card_id &&
+    	self.symbol == next.symbol &&
 		self.color == next.color &&
 		self.shading == next.shading &&
 		self.number == next.number
@@ -96,9 +96,28 @@ ResetDeck() do
 		
 end
 
-IsSet(card_one, card_two, card_three) do
+isSet(Card one, Card two, Card three) do
   # checks if 2 cards have an attribute that the third doesn't share. If yes, not a set. Return false.
   # else return true
+
+	unless(((one.symbol == two.symbol) && (two.symbol == three.symbol)) || ((one.symbol != two.symbol) && (two.symbol != three.symbol) && (three.symbol !=one.symbol))) 
+		return false
+	end
+	
+	unless(((one.color == two.color) && (two.color == three.color)) || ((one.color != two.color) && (two.color != three.color) && (three.color !=one.color))) 
+		return false
+	end
+
+	unless(((one.shading == two.shading) && (two.shading == three.shading)) || ((one.shading != two.shading) && (two.shading != three.shading) && (three.shading !=one.shading))) 
+		return false
+	end
+
+	unless(((one.number == two.number) && (two.number == three.number)) || ((one.number != two.number) && (two.number != three.number) && (three.number !=one.number))) 
+		return false
+	end
+
+	return true
+
 end
 
 trackScores() do
