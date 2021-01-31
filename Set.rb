@@ -107,7 +107,7 @@ ResetDeck() do
 		$current_cards.push(Card.new(nil, sym, col, shad, num))
 		unique_deck = $current_cards.uniq.each{|card|, card.symbol, card.color, card.shading, card.number}
 		if unique_deck.length != $current_cards.length
-			$current_cards = unique_deck.clone
+			$current_cards.replace(unique_deck)
 		end
 	end
 		for i in 1..12 do
