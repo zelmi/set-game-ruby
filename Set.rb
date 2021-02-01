@@ -74,22 +74,32 @@ end
 # called at beginning of game to create original 81 card
 # then called by addThree function whenever needed
 InitializeCards(int num_cards) do
-	$i = 0
+	i = 0
 
 	# initialize empty array 
 	newCards = Array.new num_cards , []
 
 	#continue adding cards to the array until num_cards is reached
-	while $i < $num_cards  do
+	while i < num_cards  do
 		#add new card returned from Card.initialize to array
 		newCards << Card.initialize ()
-		$i +=1
+		i +=1
 	 end 
 
   end
 
 InitializePlayers(int num_players) do
-  # run a for loop adding players and their token to the game
+	i = 0
+
+	# initialize empty array 
+	newPlayers = Array.new num_players , []
+
+	#continue adding players to the array until num_players is reached
+	while i < num_players  do
+		#add new player returned from Player.initialize to array
+		newPlayers << Player.initialize ()
+		i +=1
+	 end 
 end
 
 ResetDeck() do
