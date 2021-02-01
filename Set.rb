@@ -64,7 +64,7 @@ end
 
 # returns an array of however many cards needed
 # called at beginning of game to create original 81 card
-InitializeDeck() do
+def initialize_deck()
 	symbols = ["diamond", "squiggle", "oval"]
 	colors = ["red", "blue", "green"]
 	shading = ["blank", "striped", "solid"]
@@ -80,7 +80,7 @@ InitializeDeck() do
 	end
 end
 	
-InitializePlayers(int num_players) do
+def initialize_players(int num_players)
 	i = 0
 
 	# initialize empty array 
@@ -94,7 +94,7 @@ InitializePlayers(int num_players) do
 	 end 
 end
 
-ResetDeck() do
+def reset_deck()
 	# set the global variable Deck to 12 random cards
 	while $current_cards.length < 12 do
 		card = $cards_available.sample
@@ -103,7 +103,7 @@ ResetDeck() do
 	end	
 end
 
-isSet(Card one, Card two, Card three) do
+def is_set(Card one, Card two, Card three)
   # checks if 2 cards have an attribute that the third doesn't share. If yes, not a set. Return false.
   # else return true
   # Return statements necessary as they are much more useful in this situation than tracking  a variable
@@ -129,12 +129,12 @@ isSet(Card one, Card two, Card three) do
 
 end
 
-trackScores() do
+def track_scores()
   	player.score += 1 #found another set. might need a a global array for the players
 end
 
 #returns an array of 3 cards to caller, to be added to callers existing array
-addThree() do
+def add_three()
 	i = 0
 	while i < 3 do
 		card = $cards_available.sample
