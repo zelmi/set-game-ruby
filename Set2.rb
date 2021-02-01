@@ -109,11 +109,21 @@ def playSet
 
 		if input != ""
 			tokens = input.split(" ")
+			if tokens.length != 4 # must be four because its name and then the three cards picked
+				
 			playerName = tokens[0]
 
 			tokens.delete_at(0)
 
-			numbers = tokens.map {|n| Integer(n)}
+			numbers = tokens.map {|n| Integer(n) rescue -1}
+			while tokens.length != 3 && tokens.any? {|card| !(card.between?(0,11))} do
+				puts("Invalid input, please try again\n")
+				input = inputString
+				tokens = input.split(" ")
+				playerName = tokens[0]
+				tokens.delete_at(0)
+				numbers = tokens.map {|n| Integer(n) rescue -1}
+			end
 			cards = []
 			
 			for i in 0...$cardsDisplayed.length
@@ -143,7 +153,7 @@ def playSet
 				addRandomAvailableCardsToDisplayed(3)
 			else
 				puts "\nNo more left, use these cards!"
-            end
+            		end
 		end
 	end
 end
