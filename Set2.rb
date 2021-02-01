@@ -108,9 +108,7 @@ def playSet
 		input = prompt(inputString)
 
 		if input != ""
-			tokens = input.split(" ")
-			if tokens.length != 4 # must be four because its name and then the three cards picked
-				
+			tokens = input.split(" ")			
 			playerName = tokens[0]
 
 			tokens.delete_at(0)
