@@ -18,7 +18,10 @@ class Card
 	end
 
 	def toString
-		"#{@color} #{@symbol} #{@shading} #{@amount}"
+		colors = ["blue", "green", "pink"]
+		symbols = ["oval", "diamond", "wavy"]
+		shadings = ["shaded", "solid", "hollow"]
+		"#{colors[@color]} #{symbols[@symbol]} #{shadings[@shading]} #{@amount}"
     end
 end
 
@@ -37,7 +40,7 @@ $cardsDisplayed = []
 $cardsUsed = []
 $players = []
 
-def generateDeck()
+def generateDeck
 	for color in 0...3
 		for symbol in 0...3
 			for shading in 0...3
@@ -71,7 +74,7 @@ def addThreeDisplayedCardsToUsed(cardOne, cardTwo, cardThree)
 	$cardsUsed.push(cardOne, cardTwo, cardThree)
 end
 
-def shuffleDeck()
+def shuffleDeck
 	$cardsAvailable.push(*$cardsUsed)
 	$cardsAvailable.push(*$cardsDisplayed)
 
@@ -100,7 +103,7 @@ end
 
 def playSet
 	while $cardsDisplayed.length >= 3 do
-		inputString = "Which are sets? (#{$cardsAvailable.length} left) #{$cardsDisplayed.enum_for(:each_with_index).map{|card, i| "\n#{i}: #{card.toString()}"}.join("")}"
+		inputString = "Which are sets? (#{$cardsAvailable.length} cards left in available deck) #{$cardsDisplayed.enum_for(:each_with_index).map{|card, i| "\n#{i}: #{card.toString()}"}.join("")}"
 
 		input = prompt(inputString)
 
@@ -123,7 +126,7 @@ def playSet
 				player = $players.find {|p| p.name == playerName}
 
 				player.score += 1
-				puts "This is a set! #{player.name} has scored #{player.score} times!"
+				puts "\nThis is a set! #{player.name} has scored #{player.score} times!"
 
 				if $cardsDisplayed.length > 12
 					addThreeDisplayedCardsToUsed(cards[0], cards[1], cards[2])
@@ -132,28 +135,29 @@ def playSet
 					addRandomAvailableCardsToDisplayed(3)
 				end
 			else
-				puts "Not a set, try again"
+				puts "\nNot a set, try again"
 			end
 		else
 			if $cardsAvailable.length >= 3
-				puts "Okay...here's some more"
+				puts "\nOkay...here's some more"
 				addRandomAvailableCardsToDisplayed(3)
 			else
-				puts "No more left, use these cards!"
+				puts "\nNo more left, use these cards!"
             end
 		end
 	end
 end
 
-def generatePlayers()
+def generatePlayers
 	$players.push(Player.new("nick"), Player.new("michael"))
 end
 
-def startGames()
+def startGames
 	generateDeck()
 	generatePlayers()
 
 	while true do
+		puts "Starting a new game!"
 		addRandomAvailableCardsToDisplayed(12)
 
 		playSet()
@@ -165,7 +169,7 @@ def startGames()
 
 		$players.each {|player| player.score = 0}
 
-		unless prompt("Continue playing?")
+		if prompt("Continue playing?") == "no"
 			puts "Ending the game"
 			return
         end
