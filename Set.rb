@@ -96,10 +96,11 @@ end
 
 def reset_deck()
 	# set the global variable Deck to 12 random cards
-	while $current_cards.length < 12 do
+	for i in 1..12 do
 		card = $cards_available.sample
-		$current_cards << card
 		$cards_available.delete(card)
+		card.card_id = i
+		$current_cards << card
 	end	
 end
 
