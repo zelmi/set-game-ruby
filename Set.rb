@@ -39,14 +39,6 @@ class Card
       @shading = shad
       @number = num
    end
-
-  	def ==(next)
-    	self.card_id  == next.card_id &&
-    	self.symbol == next.symbol &&
-		self.color == next.color &&
-		self.shading == next.shading &&
-		self.number == next.number
-  	end
 end
 
 
@@ -72,22 +64,22 @@ end
 
 # returns an array of however many cards needed
 # called at beginning of game to create original 81 card
-# then called by addThree function whenever needed
-InitializeCards(int num_cards) do
-	i = 0
-
-	# initialize empty array 
-	newCards = Array.new num_cards , []
-
-	#continue adding cards to the array until num_cards is reached
-	while i < num_cards  do
-		#add new card returned from Card.initialize to array
-		newCards << Card.initialize ()
-		i +=1
-	 end 
-
-  end
-
+InitializeDeck() do
+	symbols = ["diamond", "squiggle", "oval"]
+	colors = ["red", "blue", "green"]
+	shading = ["blank", "striped", "solid"]
+	numbers = ["one", "two", "three"]
+	colors.each do |color|
+		symbols.each do |symbol|
+  			shading.each do |shade|
+				numbers.each do |number|
+	    				$cards_available << Card.new( nil, symbol, color, shade, number )
+				end
+  			end
+		end
+	end
+end
+	
 InitializePlayers(int num_players) do
 	i = 0
 
@@ -103,27 +95,12 @@ InitializePlayers(int num_players) do
 end
 
 ResetDeck() do
-	colors = ["red", "blue", "green"]
-	symbols = ["diamond", "squiggle", "oval"]
-	shading = ["blank", "striped", "solid"]
-	numbers = ["one", "two", "three"]
-	 # set the global variable Deck to 12 random cards
-	#this is what i have but i haven't checked to see if it works
-	while current_cards.length < 12 do
-		sym = symbols.sample
-		col = colors.sample
-		shad = shading.sample
-		num = numbers.sample
-		$current_cards.push(Card.new(nil, sym, col, shad, num))
-		unique_deck = $current_cards.uniq.each{|card|, card.symbol, card.color, card.shading, card.number}
-		if unique_deck.length != $current_cards.length
-			$current_cards.replace(unique_deck)
-		end
-	end
-		for i in 1..12 do
-			$current_cards[i].card_id = i
-		end
-		
+	# set the global variable Deck to 12 random cards
+	while $current_cards.length < 12 do
+		card = $cards_available.sample
+		$current_cards << card
+		$cards_available.delete(card)
+	end	
 end
 
 isSet(Card one, Card two, Card three) do
@@ -153,12 +130,19 @@ isSet(Card one, Card two, Card three) do
 end
 
 trackScores() do
-  # track player scores
+  	player.score += 1 #found another set. might need a a global array for the players
 end
 
 #returns an array of 3 cards to caller, to be added to callers existing array
 addThree() do
-	newCards = InitializeCards (3)
+	i = 0
+	while i < 3 do
+		card = $cards_available.sample
+		$current_cards << card
+		$cards_available.delete(card)
+		i += 1
+	end
+		
 end
 
 
