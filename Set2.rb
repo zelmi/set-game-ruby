@@ -116,7 +116,7 @@ def playSet
 			numbers = tokens.map {|n| Integer(n) rescue -1}
 			while tokens.length != 3 || tokens.any? {|card| !(card.between?(0,11))} do
 				puts("Invalid input, please try again\n")
-				input = inputString
+				input = prompt(inputString)
 				tokens = input.split(" ")
 				playerName = tokens[0]
 				tokens.delete_at(0)
