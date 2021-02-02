@@ -113,7 +113,7 @@ def playSet
 
 			tokens.delete_at(0)
 
-			numbers = tokens.map {|n| Integer(n) rescue -1}
+			numbers = tokens.map {|n| Integer(n) rescue nil}
 			while tokens.length != 3 || tokens.any? {|card| !(card.between?(0,11))} do
 				puts("Invalid input, please try again\n")
 				input = prompt(inputString)
