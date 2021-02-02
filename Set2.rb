@@ -120,7 +120,7 @@ def playSet
 				tokens = input.split(" ")
 				playerName = tokens[0]
 				tokens.delete_at(0)
-				numbers = tokens.map {|n| Integer(n) rescue -1}
+				numbers = tokens.map {|n| Integer(n) rescue nil}
 			end
 			cards = []
 			
