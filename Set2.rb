@@ -183,7 +183,17 @@ def playSet
 		input = prompt(inputString)
 
 		#if user enters an empty space, it means they cannot find a set
-		if input != ""
+		if input == "quit"
+			quit =  prompt("Are you sure you want to quit? ")
+			#allow players to end game
+
+			if quit == "yes" || quit == "y"
+
+				return
+
+        		end
+
+		elsif input != ""
 			#take user input and divide into names and card indices 
 			tokens = input.split(" ")			
 			playerName = tokens[0]
