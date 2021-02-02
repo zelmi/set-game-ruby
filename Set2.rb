@@ -186,11 +186,8 @@ def playSet
 		if input == "quit"
 			quit =  prompt("Are you sure you want to quit? ")
 			#allow players to end game
-
 			if quit == "yes" || quit == "y"
-
 				return
-
         		end
 
 		elsif input != ""
