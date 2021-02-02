@@ -156,13 +156,20 @@ def playSet
 	end
 end
 
-def generatePlayers
-	$players.push(Player.new("nick"), Player.new("michael"))
+def generatePlayers(list)
+	
+	for i in 1..list.length do
+		$players.push(Player.new(list[i - 1]))
+	end
 end
 
 def startGames
 	generateDeck()
-	generatePlayers()
+	inputString = "Please enter the name of the players: \n"
+
+	input = prompt(inputString)
+	names = input.split(" ")
+	generatePlayers(names)
 
 	while true do
 		puts "Starting a new game!"
