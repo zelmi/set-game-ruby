@@ -69,7 +69,7 @@ def generateDeck
 	for color in 0...3
 		for symbol in 0...3
 			for shading in 0...3
-				for amount in 0...3
+				for amount in 1...4
 					$cardsAvailable.push(Card.new(color, symbol, shading, amount))
                 end
 			end
@@ -178,7 +178,7 @@ def playSet
 
 	#display cards as long as there are at least 3
 	while $cardsDisplayed.length >= 3 do
-		inputString = "Which are sets? Enter player name and card indexes separated by a space. Enter blank if set not found. (#{$cardsAvailable.length} cards left in available deck) #{$cardsDisplayed.enum_for(:each_with_index).map{|card, i| "\n#{i}: #{card.toString()}"}.join("")}"
+		inputString = "Which are sets? Enter player name and card indexes separated by a space. Enter blank if set not found. (#{$cardsAvailable.length} cards left in available deck) #{$cardsDisplayed.enum_for(:each_with_index).map{|card, i| "\n#{i + 1}: #{card.toString()}"}.join("")}"
 
 		input = prompt(inputString)
 
