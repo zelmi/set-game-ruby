@@ -44,7 +44,7 @@ class Player
 		@name = name
 		@score = 0
 		@winCount = 0
-    end
+		end
 end
 
 =begin
@@ -71,7 +71,7 @@ def generateDeck
 			for shading in 0...3
 				for amount in 1...4
 					$cardsAvailable.push(Card.new(color, symbol, shading, amount))
-                end
+				end
 			end
 		end
 	end
@@ -184,7 +184,7 @@ def playSet
 
 		#if user enters an empty space, it means they cannot find a set
 		if input == "quit"
-			quit =  prompt("Are you sure you want to quit? ")
+			quit = prompt("Are you sure you want to quit? ")
 			#allow players to end game
 			if quit == "yes" || quit == "y"
 				return
@@ -298,7 +298,7 @@ def startGames
 		$players.each {|player| player.score = 0}
 
 		#allow players to end game
-		if prompt("Continue playing?") == "no"
+		if prompt("Continue playing?") == ("no" || "n")
 			puts "Ending the game"
 			return
         end
