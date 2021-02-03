@@ -209,6 +209,8 @@ def playSet
 				numbers = tokens.map {|n| Integer(n)}
 			end
 
+
+
 			#array for cards chosen by player
 			cards = []
 			
@@ -298,7 +300,8 @@ def startGames
 		$players.each {|player| player.score = 0}
 
 		#allow players to end game
-		if prompt("Continue playing?") == ("no" || "n")
+		quit_prompt = prompt("Continue playing?")
+		if quit_prompt == "no" || quit_prompt == "n"
 			puts "Ending the game"
 			return
         end
