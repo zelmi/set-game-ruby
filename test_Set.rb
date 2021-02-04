@@ -8,8 +8,8 @@ def test_addThreeDisplayedCardsToUsed
     @cardTwo = Card.new 2, "wavy", "solid", "blue"
     @cardThree= Card.new 3, "diamond", "hollow", "green"
 
-    originalArray = Set.cardsUsed.push(cardOne, cardTwo, cardThree)
-    returnedArray = Set.addThreeDisplayedCardsToUsed(cardOne, cardTwo, cardThree)
+    originalArray = set.cardsUsed.push(cardOne, cardTwo, cardThree)
+    returnedArray = set.addThreeDisplayedCardsToUsed(cardOne, cardTwo, cardThree)
 
     assert_equal returnedArray, originalArray
 end
@@ -28,7 +28,7 @@ def test_addThreeDisplayedCardsToUsed
     @cardThree= Card.new 3, "diamond", "hollow", "green"
 
     isSetActual = false
-    isSetReturned = Set.isSet(cardOne, cardTwo, cardThree)
+    isSetReturned = set.isSet(cardOne, cardTwo, cardThree)
 
     assert_equal isSetReturned, isSetActual
 end
@@ -40,7 +40,7 @@ def test_addThreeDisplayedCardsToUsed
     @cardThree= Card.new 3, "diamond", "hollow", "green"
 
     isSetActual = false
-    isSetReturned = Set.isSet(cardOne, cardTwo, cardThree)
+    isSetReturned = set.isSet(cardOne, cardTwo, cardThree)
 
     assert_equal isSetReturned, isSetActual
 end
