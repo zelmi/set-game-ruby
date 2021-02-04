@@ -44,33 +44,20 @@ class Player
 		@name = name
 		@score = 0
 		@win_count = 0
-		end
+	end
 end
-
-=begin
-Global Variables:
-cards_available (Array of cards left to be played)
-cards_displayed (Array of currently used cards)
-cards_used (Array of previously used cards)
-players (Array of players)
-=end
-$cards_available = []
-$cards_displayed = []
-$cards_used = []
-$players = []
-
 
 =begin
 Generates 81 card deck to be added to cards_available array.
 updates:
 	cards_available
 =end
-def generate_deck
+def generate_deck(cards_available)
 	for color in 0...3
 		for symbol in 0...3
 			for shading in 0...3
 				for amount in 1...4
-					$cards_available.push(Card.new(color, symbol, shading, amount))
+					cards_available.push(Card.new(color, symbol, shading, amount))
 				end
 			end
 		end
@@ -85,26 +72,26 @@ updates:
 	cards_available
 	cards_displayed
 =end
-def add_random_card_available_displayed
-	if $cards_available.length == 0 
+def add_random_card_available_displayed(cards_available, cards_displayed)
+	if cards_available.length == 0 
 		return
 	end
 
 	#chooses a random index for card choice
-	random_card_index = rand(0...$cards_available.length)
+	random_card_index = rand(0...cards_available.length)
 	#removes chosen card from cards_available
-	random_card = $cards_available.delete_at(random_card_index)
+	random_card = cards_available.delete_at(random_card_index)
 
 	#adds chosen card to be displayed to players
-    $cards_displayed.push(random_card)
+    cards_displayed.push(random_card)
 end
 
 =begin
 Adds a certain amount of random cards with numCards being the number of cards to add.
 =end
-def add_random_available_cards_to_displayed(numCards)
+def add_random_available_cards_to_displayed(cards_available, cards_displayed, numCards)
 	for i in 0...numCards
-		add_random_card_available_displayed()
+		add_random_card_available_displayed(cards_available, cards_displayed)
 	end
 end
 
@@ -114,13 +101,12 @@ updates:
 	cardsUsed
 	cardsDisplayed
 =end
-def add_three_displayed_cards_to_used(card_one, card_two, card_three)
-
+def add_three_displayed_cards_to_used(cards_displayed, cards_used, card_one, card_two, card_three)
 	#removes three given cards from cardsDisplayed
-	$cards_displayed = $cards_displayed.filter {|card| !(card.equals(card_one) || card.equals(card_two) || card.equals(card_three))}
+	cards_displayed.filter! {|card| !(card.equals(card_one) || card.equals(card_two) || card.equals(card_three))}
 
 	#adds the three cards to cardsUsed
-	$cards_used.push(card_one, card_two, card_three)
+	cards_used.push(card_one, card_two, card_three)
 end
 
 =begin
@@ -132,12 +118,12 @@ clears:
 	cards_used
 	cards_displayed
 =end
-def shuffle_deck
-	$cards_available.push(*$cards_used)
-	$cards_available.push(*$cards_displayed)
+def shuffle_deck(cards_available, cards_displayed, cards_used)
+	cards_available.push(*cards_used)
+	cards_available.push(*cards_displayed)
 
-	$cards_displayed = []
-	$cards_used = []
+    cards_displayed.filter! {|card| false}
+    cards_used.filter! {|card| false}
 end
 
 =begin
@@ -174,11 +160,10 @@ updates:
 	cards_available
 	cards_displayed
 =end
-def play_set
-
+def play_set(cards_available, cards_displayed, cards_used, players)
 	#display cards as long as there are at least 3
-	while $cards_displayed.length >= 3 do
-		input_string = "Which are sets? Enter player name and card indexes separated by a space. Enter blank if set not found. (#{$cards_available.length} cards left in available deck) #{$cards_displayed.enum_for(:each_with_index).map{|card, i| "\n#{i + 1}: #{card.to_string()}"}.join("")}"
+	while cards_displayed.length >= 3 do
+		input_string = "Which are sets? Enter player name and card indexes separated by a space. Enter blank if set not found. (#{cards_available.length} cards left in available deck) #{cards_displayed.enum_for(:each_with_index).map{|card, i| "\n#{i + 1}: #{card.to_string()}"}.join("")}"
 
 		input = prompt(input_string)
 
@@ -188,8 +173,7 @@ def play_set
 			#allow players to end game
 			if quit == "yes" || quit == "y"
 				return
-        		end
-
+        	end
 		elsif input != ""
 			#take user input and divide into names and card indices 
 			tokens = input.split(" ")			
@@ -199,8 +183,8 @@ def play_set
 			#if not a valid int input change n to 0 so not in range of 1-12
 			numbers = tokens.map {|n| Integer(n) rescue 0} 
 			#check if user inserted valid input. i.e. valid card number or existing player name
-			while tokens.length != 3 || numbers.any? {|num| !(num.between?(1,12))} || !($players.any? {|p| p.name == player_name }) do
-				if !($players.any? {|p| p.name == player_name })
+			while tokens.length != 3 || numbers.any? {|num| !(num.between?(1,12))} || !(players.any? {|p| p.name == player_name }) do
+				if !(players.any? {|p| p.name == player_name })
 					puts("Player not found, please try again\n")
 				else
 					puts("Invalid card number, please try again\n")
@@ -213,47 +197,43 @@ def play_set
 				numbers = tokens.map {|n| Integer(n) rescue 0}
 			end
 
-
-
 			#array for cards chosen by player
 			cards = []
 
 			#add chosen cards from cardsDisplayed to cards array
-			for i in 1..$cards_displayed.length
+			for i in 1..cards_displayed.length
 				if numbers.include?(i)
-					cards.push($cards_displayed[i - 1])
+					cards.push(cards_displayed[i - 1])
 				end
 			end
 
 			#check if the cards chosen by player are a set. Keep track of which player chose the cards
 			if is_set(cards[0], cards[1], cards[2])
-				player = $players.find {|p| p.name == player_name}
+				player = players.find {|p| p.name == player_name}
 
 				#update the player's score tally if they have chosen a set correctly
 				player.score += 1
 				puts "\nThis is a set! #{player.name} has scored #{player.score} times!"
 
 				#refill the array to make sure 12 cards are displayed to players again
-				if $cards_displayed.length > 12
-					add_three_displayed_cards_to_used(cards[0], cards[1], cards[2])
+				if cards_displayed.length > 12
+					add_three_displayed_cards_to_used(cards_displayed, cards_used, cards[0], cards[1], cards[2])
 				else
-					add_three_displayed_cards_to_used(cards[0], cards[1], cards[2])
-					add_random_available_cards_to_displayed(3)
+					add_three_displayed_cards_to_used(cards_displayed, cards_used, cards[0], cards[1], cards[2])
+					add_random_available_cards_to_displayed(cards_available, cards_displayed, 3)
 				end
 			else
 				puts "\nNot a set, try again"
 			end
 		else
-
 			#if user cannot find a set, add 3 more cards
-			if $cards_available.length >= 3
+			if cards_available.length >= 3
 				puts "\nOkay...here's some more"
-				add_random_available_cards_to_displayed(3)
+				add_random_available_cards_to_displayed(cards_available, cards_displayed, 3)
 			else
-
 				#gives user more cards if there are less than 3 left
 				puts "\nNo more left, use these cards!"
-            		end
+            end
 		end
 	end
 end
@@ -263,10 +243,9 @@ Adds all player names given into the players array.
 updates:
 	players
 =end
-def generate_players(list)
-	
+def generate_players(players, list)
 	for i in 1..list.length do
-		$players.push(Player.new(list[i - 1]))
+		players.push(Player.new(list[i - 1]))
 	end
 end
 
@@ -277,31 +256,35 @@ updates:
 	Player class
 =end
 def start_games
-	generate_deck()
+    cards_available = []
+    cards_displayed = []
+    cards_used = []
+    players = []
+
+	generate_deck(cards_available)
+
 	input_string = "Please enter the names of all the players: \n"
-
 	input = prompt(input_string)
-
 	#add each given name as a separate element to players array
 	names = input.split(" ")
-	generate_players(names)
+	generate_players(players, names)
 
 	#begin a game
 	while true do
 		puts "Starting a new game!"
-		add_random_available_cards_to_displayed(12)
+		add_random_available_cards_to_displayed(cards_available, cards_displayed, 12)
 
-		play_set()
+		play_set(cards_available, cards_displayed, cards_used, players)
 
 		#calculate the winner of the game by tracking points
-		winner = $players.reduce {|most_points, current_points| current_points.score > most_points.score ? current_points : most_points }
+		winner = players.reduce {|most_points, current_points| current_points.score > most_points.score ? current_points : most_points }
 
 		#keep track of number of times each player has won
 		winner.win_count += 1
 		puts "Game over... #{winner.name} won with #{winner.score} points! #{winner.name} has won #{winner.win_count} times."
 
 		#reset each player's score to 0 after game has ended and scores tallied 
-		$players.each {|player| player.score = 0}
+		players.each {|player| player.score = 0}
 
 		#allow players to end game
 		quit_prompt = prompt("Continue playing?")
@@ -311,7 +294,7 @@ def start_games
         end
 
 		#reshuffle the deck and start again if players choose so
-		shuffle_deck()
+		shuffle_deck(cards_available, cards_displayed, cards_used)
 	end
 end
 
