@@ -27,7 +27,7 @@ class Card
 	end
 
 	#displays cards as a  string
-	def toString
+	def to_string
 		colors = ["blue", "green", "pink"]
 		symbols = ["oval", "diamond", "wavy"]
 		shadings = ["shaded", "solid", "hollow"]
@@ -37,13 +37,13 @@ end
 
 #player class and initializer
 class Player
-	attr_accessor :name, :score, :winCount
+	attr_accessor :name, :score, :win_count
 
 	#attributes of each player
 	def initialize(name)
 		@name = name
 		@score = 0
-		@winCount = 0
+		@win_count = 0
 		end
 end
 
@@ -54,23 +54,23 @@ cardsDisplayed (Array of currently used cards)
 CardsUsed (Array of previously used cards)
 Players (Array of players)
 =end
-$cardsAvailable = []
-$cardsDisplayed = []
-$cardsUsed = []
+$cards_available = []
+$cards_displayed = []
+$cards_used = []
 $players = []
 
 
 =begin
 Generates 81 card deck to be added to cardsAvailable array.
 updates:
-	cardsAvailable
+	cards_available
 =end
-def generateDeck
+def generate_deck
 	for color in 0...3
 		for symbol in 0...3
 			for shading in 0...3
 				for amount in 1...4
-					$cardsAvailable.push(Card.new(color, symbol, shading, amount))
+					$cards_available.push(Card.new(color, symbol, shading, amount))
 				end
 			end
 		end
@@ -79,32 +79,32 @@ end
 
 
 =begin
-Adds a card from the cardsAvailable deck to the cardsDisplayed desk.
-Removes card from cardsAvailable.
+Adds a card from the cards_available deck to the cards_displayed desk.
+Removes card from cards_available.
 updates:
-	cardsAvailable
-	cardsDisplayed
+	cards_available
+	cards_displayed
 =end
-def addRandomCardFromAvailableToDisplayed
-	if $cardsAvailable.length == 0 
+def add_random_card_available_displayed
+	if $cards_available.length == 0 
 		return
 	end
 
 	#chooses a random index for card choice
-	randomCardIndex = rand(0...$cardsAvailable.length)
-	#removes chosen card from cardsAvailable
-	randomCard = $cardsAvailable.delete_at(randomCardIndex)
+	random_card_index = rand(0...$cards_available.length)
+	#removes chosen card from cards_available
+	random_card = $cards_available.delete_at(random_card_index)
 
 	#adds chosen card to be displayed to players
-    $cardsDisplayed.push(randomCard)
+    $cards_displayed.push(random_card)
 end
 
 =begin
 Adds a certain amount of random cards with numCards being the number of cards to add.
 =end
-def addRandomAvailableCardsToDisplayed(numCards)
+def add_random_available_cards_to_displayed(numCards)
 	for i in 0...numCards
-		addRandomCardFromAvailableToDisplayed()
+		add_random_card_available_displayed()
 	end
 end
 
@@ -114,13 +114,13 @@ updates:
 	cardsUsed
 	cardsDisplayed
 =end
-def addThreeDisplayedCardsToUsed(cardOne, cardTwo, cardThree)
+def add_three_displayed_cards_to_used(card_one, card_two, card_three)
 
 	#removes three given cards from cardsDisplayed
-	$cardsDisplayed = $cardsDisplayed.filter {|card| !(card.equals(cardOne) || card.equals(cardTwo) || card.equals(cardThree))}
+	$cards_displayed = $cards_displayed.filter {|card| !(card.equals(card_one) || card.equals(card_two) || card.equals(card_three))}
 
 	#adds the three cards to cardsUsed
-	$cardsUsed.push(cardOne, cardTwo, cardThree)
+	$cards_used.push(card_one, card_two, card_three)
 end
 
 =begin
@@ -132,55 +132,55 @@ clears:
 	cardsUsed
 	cardsDisplayed
 =end
-def shuffleDeck
-	$cardsAvailable.push(*$cardsUsed)
-	$cardsAvailable.push(*$cardsDisplayed)
+def shuffle_deck
+	$cards_available.push(*$cards_used)
+	$cards_available.push(*$cards_displayed)
 
-	$cardsDisplayed = []
-	$cardsUsed = []
+	$cards_displayed = []
+	$cards_used = []
 end
 
 =begin
 Takes in 3 card objects and checks if they are a set.
 Returns a boolean true if set and false if not set.
 =end
-def isSet(cardOne, cardTwo, cardThree)
+def is_set(card_one, card_two, card_three)
 
 	#checks if all cards share any attribute
-	allSameNumber = cardOne.amount == cardTwo.amount && cardTwo.amount == cardThree.amount
-	allSameColor = cardOne.color == cardTwo.color && cardTwo.color == cardThree.color
-	allSameShading = cardOne.shading == cardTwo.shading && cardTwo.shading == cardThree.shading
-	allSameSymbol = cardOne.symbol == cardTwo.symbol && cardTwo.symbol == cardThree.symbol
+	all_same_number = card_one.amount == card_two.amount && card_two.amount == card_three.amount
+	all_same_color = card_one.color == card_two.color && card_two.color == card_three.color
+	all_same_shading = card_one.shading == card_two.shading && card_two.shading == card_three.shading
+	all_same_symbol = card_one.symbol == card_two.symbol && card_two.symbol == card_three.symbol
 
 	#checks if all cards share no attributes
-	allDifferentNumber = cardOne.amount != cardTwo.amount && cardTwo.amount != cardThree.amount
-	allDifferentColor = cardOne.color != cardTwo.color && cardTwo.color != cardThree.color
-	allDifferentShading = cardOne.shading != cardTwo.shading && cardTwo.shading != cardThree.shading
-	allDifferentSymbol = cardOne.symbol != cardTwo.symbol && cardTwo.symbol != cardThree.symbol
+	all_different_number = card_one.amount != card_two.amount && card_two.amount != card_three.amount
+	all_different_color = card_one.color != card_two.color && card_two.color != card_three.color
+	all_different_shading = card_one.shading != card_two.shading && card_two.shading != card_three.shading
+	all_different_symbol = card_one.symbol != card_two.symbol && card_two.symbol != card_three.symbol
 
 	#determines if cards are a set by checking if all attributes are either different or the same
-	allDifferentOrSameNumber = allSameNumber || allDifferentNumber
-	allDifferentOrSameColor = allSameColor || allDifferentColor
-	allDifferentOrSameShading = allSameShading || allDifferentShading
-	allDifferentOrSameSymbol = allSameSymbol || allDifferentSymbol
+	all_different_or_same_number = all_same_number || all_different_number
+	all_different_or_same_color = all_same_color || all_different_color
+	all_different_or_same_shading = all_same_shading || all_different_shading
+	all_different_or_same_symbol = all_same_symbol || all_different_symbol
 
 	#final boolean determining if cards are a set
-	allDifferentOrSameNumber && allDifferentOrSameColor && allDifferentOrSameShading && allDifferentOrSameSymbol
+	all_different_or_same_number && all_different_or_same_color && all_different_or_same_shading && all_different_or_same_symbol
 end
 
 =begin
 Displays cards to players and asks them to find a set. Various functions handle different situations. 
 updates:
-	cardsAvailable
-	cardsDisplayed
+	cards_available
+	cards_displayed
 =end
-def playSet
+def play_set
 
 	#display cards as long as there are at least 3
-	while $cardsDisplayed.length >= 3 do
-		inputString = "Which are sets? Enter player name and card indexes separated by a space. Enter blank if set not found. (#{$cardsAvailable.length} cards left in available deck) #{$cardsDisplayed.enum_for(:each_with_index).map{|card, i| "\n#{i + 1}: #{card.toString()}"}.join("")}"
+	while $cards_displayed.length >= 3 do
+		input_string = "Which are sets? Enter player name and card indexes separated by a space. Enter blank if set not found. (#{$cards_available.length} cards left in available deck) #{$cards_displayed.enum_for(:each_with_index).map{|card, i| "\n#{i + 1}: #{card.to_string()}"}.join("")}"
 
-		input = prompt(inputString)
+		input = prompt(input_string)
 
 		#if user enters an empty space, it means they cannot find a set
 		if input == "quit"
@@ -193,22 +193,22 @@ def playSet
 		elsif input != ""
 			#take user input and divide into names and card indices 
 			tokens = input.split(" ")			
-			playerName = tokens[0]
+			player_name = tokens[0]
 
 			tokens.delete_at(0)
 			#if not a valid int input change n to 0 so not in range of 1-12
 			numbers = tokens.map {|n| Integer(n) rescue 0} 
 			#check if user inserted valid input. i.e. valid card number or existing player name
-			while tokens.length != 3 || numbers.any? {|num| !(num.between?(1,12))} || !($players.any? {|p| p.name == playerName }) do
-				if !($players.any? {|p| p.name == playerName })
+			while tokens.length != 3 || numbers.any? {|num| !(num.between?(1,12))} || !($players.any? {|p| p.name == player_name }) do
+				if !($players.any? {|p| p.name == player_name })
 					puts("Player not found, please try again\n")
 				else
 					puts("Invalid card number, please try again\n")
 				end
 
-				input = prompt(inputString)
+				input = prompt(input_string)
 				tokens = input.split(" ")
-				playerName = tokens[0]
+				player_name = tokens[0]
 				tokens.delete_at(0)
 				numbers = tokens.map {|n| Integer(n) rescue 0}
 			end
@@ -219,26 +219,26 @@ def playSet
 			cards = []
 
 			#add chosen cards from cardsDisplayed to cards array
-			for i in 1..$cardsDisplayed.length
+			for i in 1..$cards_displayed.length
 				if numbers.include?(i)
-					cards.push($cardsDisplayed[i - 1])
+					cards.push($cards_displayed[i - 1])
 				end
 			end
 
 			#check if the cards chosen by player are a set. Keep track of which player chose the cards
-			if isSet(cards[0], cards[1], cards[2])
-				player = $players.find {|p| p.name == playerName}
+			if is_set(cards[0], cards[1], cards[2])
+				player = $players.find {|p| p.name == player_name}
 
 				#update the player's score tally if they have chosen a set correctly
 				player.score += 1
 				puts "\nThis is a set! #{player.name} has scored #{player.score} times!"
 
 				#refill the array to make sure 12 cards are displayed to players again
-				if $cardsDisplayed.length > 12
-					addThreeDisplayedCardsToUsed(cards[0], cards[1], cards[2])
+				if $cards_displayed.length > 12
+					add_three_displayed_cards_to_used(cards[0], cards[1], cards[2])
 				else
-					addThreeDisplayedCardsToUsed(cards[0], cards[1], cards[2])
-					addRandomAvailableCardsToDisplayed(3)
+					add_three_displayed_cards_to_used(cards[0], cards[1], cards[2])
+					add_random_available_cards_to_displayed(3)
 				end
 			else
 				puts "\nNot a set, try again"
@@ -246,9 +246,9 @@ def playSet
 		else
 
 			#if user cannot find a set, add 3 more cards
-			if $cardsAvailable.length >= 3
+			if $cards_available.length >= 3
 				puts "\nOkay...here's some more"
-				addRandomAvailableCardsToDisplayed(3)
+				add_random_available_cards_to_displayed(3)
 			else
 
 				#gives user more cards if there are less than 3 left
@@ -263,7 +263,7 @@ Adds all player names given into the players array.
 updates:
 	players
 =end
-def generatePlayers(list)
+def generate_players(list)
 	
 	for i in 1..list.length do
 		$players.push(Player.new(list[i - 1]))
@@ -273,32 +273,32 @@ end
 =begin
 Main method. Begins game by collecting player information. Keeps track of player points and displays at the end of game. 
 updates:
-	cardsDisplayed
-	player class
+	cards_displayed
+	Player class
 =end
-def startGames
-	generateDeck()
-	inputString = "Please enter the names of all the players: \n"
+def start_games
+	generate_deck()
+	input_string = "Please enter the names of all the players: \n"
 
-	input = prompt(inputString)
+	input = prompt(input_string)
 
 	#add each given name as a separate element to players array
 	names = input.split(" ")
-	generatePlayers(names)
+	generate_players(names)
 
 	#begin a game
 	while true do
 		puts "Starting a new game!"
-		addRandomAvailableCardsToDisplayed(12)
+		add_random_available_cards_to_displayed(12)
 
-		playSet()
+		play_set()
 
 		#calculate the winner of the game by tracking points
-		winner = $players.reduce {|mostPoints, currentPoints| currentPoints.score > mostPoints.score ? currentPoints : mostPoints }
+		winner = $players.reduce {|most_points, current_points| current_points.score > most_points.score ? current_points : most_points }
 
 		#keep track of number of times each player has won
-		winner.winCount += 1
-		puts "Game over... #{winner.name} won with #{winner.score} points! #{winner.name} has won #{winner.winCount} times."
+		winner.win_count += 1
+		puts "Game over... #{winner.name} won with #{winner.score} points! #{winner.name} has won #{winner.win_count} times."
 
 		#reset each player's score to 0 after game has ended and scores tallied 
 		$players.each {|player| player.score = 0}
@@ -311,8 +311,8 @@ def startGames
         end
 
 		#reshuffle the deck and start again if players choose so
-		shuffleDeck()
+		shuffle_deck()
 	end
 end
 
-startGames()
+start_games()
