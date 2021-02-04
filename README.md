@@ -44,7 +44,7 @@ To not continue playing after a game, enter "no" or "n" at the prompt
 
 ## Testing
 
-In order to test the game in the "tests" section, delete the startGames function call at the bottom of lib/set.rb. Else, the game will run.
+In order to test the game in the "tests" section, delete the startGames function call at the bottom of lib/set.rb. Else, the game will run and tests won't.
 
 To test, run
 
