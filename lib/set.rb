@@ -28,9 +28,9 @@ class Card
 
 	#displays cards as a  string
 	def toString
-		colors = ["blue", "green", "pink"]
-		symbols = ["oval", "diamond", "wavy"]
-		shadings = ["shaded", "solid", "hollow"]
+		colors = ["purple", "green", "red"]
+		symbols = ["oval", "diamond", "squiggly"]
+		shadings = ["striped", "solid", "empty"]
 		"#{colors[@color]} #{symbols[@symbol]} #{shadings[@shading]} #{@amount}"
     end
 end
