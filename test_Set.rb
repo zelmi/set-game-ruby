@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'Set' 
+require 'set' 
 class TestCard < MiniTest::Test
 
 #tests if addThreeDisplayedCardsToUsed will add the 3 given cards to the given array
