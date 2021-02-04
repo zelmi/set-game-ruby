@@ -44,3 +44,4 @@ def test_addThreeDisplayedCardsToUsed
 
     assert_equal isSetReturned, isSetActual
 end
+end
