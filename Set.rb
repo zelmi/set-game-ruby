@@ -100,7 +100,7 @@ def addRandomCardFromAvailableToDisplayed
 end
 
 =begin
-########################################################################
+Adds a certain amount of random cards with numCards being the number of cards to add.
 =end
 def addRandomAvailableCardsToDisplayed(numCards)
 	for i in 0...numCards
