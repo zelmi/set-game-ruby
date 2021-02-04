@@ -130,7 +130,6 @@ Takes in 3 card objects and checks if they are a set.
 Returns a boolean true if set and false if not set.
 =end
 def is_set(card_one, card_two, card_three)
-
 	#checks if all cards share any attribute
 	all_same_number = card_one.amount == card_two.amount && card_two.amount == card_three.amount
 	all_same_color = card_one.color == card_two.color && card_two.color == card_three.color
@@ -261,15 +260,13 @@ updates:
 	players
 =end
 def generate_players(players)
-	input_string = "Please enter the names of all the players: \n"
-	input = prompt(input_string)
+	input = prompt "Please enter the names of all the players:"
 
 	#add each given name as a separate element to players array
 	names = input.split(" ")
 
-	for name in names do
-		players.push(Player.new name)
-	end
+	# Adds a new player for each name
+	names.each {|name| players.push(Player.new name)}
 end
 
 =begin
@@ -300,4 +297,5 @@ def start_games
 	end
 end
 
+# Comment this out when running tests, else the game will run too
 start_games
