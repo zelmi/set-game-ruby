@@ -196,28 +196,32 @@ def playSet
 			playerName = tokens[0]
 
 			tokens.delete_at(0)
+			#if not a valid int input change n to 0 so not in range of 1-12
+			numbers = tokens.map {|n| Integer(n) rescue 0} 
+			#check if user inserted valid input. i.e. valid card number or existing player name
+			while tokens.length != 3 || numbers.any? {|num| !(num.between?(1,12))} || !($players.any? {|p| p.name == playerName }) do
+				if !($players.any? {|p| p.name == playerName })
+					puts("Player not found, please try again\n")
+				else
+					puts("Invalid card number, please try again\n")
+				end
 
-			numbers = tokens.map {|n| Integer(n)}
-
-			#check if user inserted valid input
-			while tokens.length != 3 do
-				puts("Invalid input, please try again\n")
 				input = prompt(inputString)
 				tokens = input.split(" ")
 				playerName = tokens[0]
 				tokens.delete_at(0)
-				numbers = tokens.map {|n| Integer(n)}
+				numbers = tokens.map {|n| Integer(n) rescue 0}
 			end
 
 
 
 			#array for cards chosen by player
 			cards = []
-			
+
 			#add chosen cards from cardsDisplayed to cards array
-			for i in 0...$cardsDisplayed.length
+			for i in 1..$cardsDisplayed.length
 				if numbers.include?(i)
-					cards.push($cardsDisplayed[i])
+					cards.push($cardsDisplayed[i - 1])
 				end
 			end
 
