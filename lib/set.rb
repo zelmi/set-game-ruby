@@ -57,13 +57,12 @@ def generate_deck(cards_available)
 		for symbol in 0...3
 			for shading in 0...3
 				for amount in 1...4
-					cards_available.push(Card.new(color, symbol, shading, amount))
+					cards_available.push(Card.new color, symbol, shading, amount)
 				end
 			end
 		end
 	end
 end
-
 
 =begin
 Adds a card from the cards_available deck to the cards_displayed desk.
@@ -78,12 +77,12 @@ def add_random_card_available_displayed(cards_available, cards_displayed)
 	end
 
 	#chooses a random index for card choice
-	random_card_index = rand(0...cards_available.length)
+	random_card_index = rand 0...cards_available.length
 	#removes chosen card from cards_available
-	random_card = cards_available.delete_at(random_card_index)
+	random_card = cards_available.delete_at random_card_index
 
 	#adds chosen card to be displayed to players
-    cards_displayed.push(random_card)
+    cards_displayed.push random_card
 end
 
 =begin
@@ -119,8 +118,8 @@ clears:
 	cards_displayed
 =end
 def shuffle_deck(cards_available, cards_displayed, cards_used)
-	cards_available.push(*cards_used)
-	cards_available.push(*cards_displayed)
+	cards_available.push *cards_used
+	cards_available.push *cards_displayed
 
     cards_displayed.filter! {|card| false}
     cards_used.filter! {|card| false}
@@ -161,6 +160,14 @@ updates:
 	cards_displayed
 =end
 def play_set(cards_available, cards_displayed, cards_used, players)
+	puts "Starting a new game!"
+
+	#reshuffle the deck
+	shuffle_deck(cards_available, cards_displayed, cards_used)
+
+	# Put twleve cards into the displayed by default
+	add_random_available_cards_to_displayed(cards_available, cards_displayed, 12)
+
 	#display cards as long as there are at least 3
 	while cards_displayed.length >= 3 do
 		input_string = "Which are sets? Enter player name and card indexes separated by a space. Enter blank if set not found. (#{cards_available.length} cards left in available deck) #{cards_displayed.enum_for(:each_with_index).map{|card, i| "\n#{i + 1}: #{card.to_string()}"}.join("")}"
@@ -236,6 +243,16 @@ def play_set(cards_available, cards_displayed, cards_used, players)
             end
 		end
 	end
+
+	#calculate the winner of the game by tracking points
+	winner = players.reduce {|most_points, current_points| current_points.score > most_points.score ? current_points : most_points }
+
+	#keep track of number of times each player has won
+	winner.win_count += 1
+	puts "Game over... #{winner.name} won with #{winner.score} points! #{winner.name} has won #{winner.win_count} times."
+
+	#reset each player's score to 0 after game has ended and scores tallied 
+	players.each {|player| player.score = 0}
 end
 
 =begin
@@ -243,9 +260,15 @@ Adds all player names given into the players array.
 updates:
 	players
 =end
-def generate_players(players, list)
-	for i in 1..list.length do
-		players.push(Player.new(list[i - 1]))
+def generate_players(players)
+	input_string = "Please enter the names of all the players: \n"
+	input = prompt(input_string)
+
+	#add each given name as a separate element to players array
+	names = input.split(" ")
+
+	for name in names do
+		players.push(Player.new name)
 	end
 end
 
@@ -262,29 +285,11 @@ def start_games
     players = []
 
 	generate_deck(cards_available)
-
-	input_string = "Please enter the names of all the players: \n"
-	input = prompt(input_string)
-	#add each given name as a separate element to players array
-	names = input.split(" ")
-	generate_players(players, names)
+	generate_players(players)
 
 	#begin a game
 	while true do
-		puts "Starting a new game!"
-		add_random_available_cards_to_displayed(cards_available, cards_displayed, 12)
-
 		play_set(cards_available, cards_displayed, cards_used, players)
-
-		#calculate the winner of the game by tracking points
-		winner = players.reduce {|most_points, current_points| current_points.score > most_points.score ? current_points : most_points }
-
-		#keep track of number of times each player has won
-		winner.win_count += 1
-		puts "Game over... #{winner.name} won with #{winner.score} points! #{winner.name} has won #{winner.win_count} times."
-
-		#reset each player's score to 0 after game has ended and scores tallied 
-		players.each {|player| player.score = 0}
 
 		#allow players to end game
 		quit_prompt = prompt("Continue playing?")
@@ -292,10 +297,7 @@ def start_games
 			puts "Ending the game"
 			return
         end
-
-		#reshuffle the deck and start again if players choose so
-		shuffle_deck(cards_available, cards_displayed, cards_used)
 	end
 end
 
-start_games()
+start_games
