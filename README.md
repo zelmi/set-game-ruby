@@ -38,6 +38,12 @@ Player enters "" when no set is found to add additional cards from the deck.
 
 Player enters "quit" when they wish to end game.
 
+## Extra Features
+
+Game can either be played in easy or hard modes. Hard mode includes a countdown timer.
+
+Scoreboard functionality to keep track of individual player wins.
+
 ## Contributions
 ### Team: //Todo: Make team name
 
