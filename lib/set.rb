@@ -49,10 +49,10 @@ end
 
 =begin
 Global Variables:
-CardsAvailable (Array of cards left to be played)
-cardsDisplayed (Array of currently used cards)
-CardsUsed (Array of previously used cards)
-Players (Array of players)
+cards_available (Array of cards left to be played)
+cards_displayed (Array of currently used cards)
+cards_used (Array of previously used cards)
+players (Array of players)
 =end
 $cards_available = []
 $cards_displayed = []
@@ -61,7 +61,7 @@ $players = []
 
 
 =begin
-Generates 81 card deck to be added to cardsAvailable array.
+Generates 81 card deck to be added to cards_available array.
 updates:
 	cards_available
 =end
@@ -124,13 +124,13 @@ def add_three_displayed_cards_to_used(card_one, card_two, card_three)
 end
 
 =begin
-It adds all card objects from cardsUsed and cardsDisplayed into cardsAvailable. 
-It resets cardsDisplayed and cardsUsed
+It adds all card objects from cards_used and cards_displayed into cards_available. 
+It resets cards_displayed and cards_used
 updates:
-	cardsAvailable
+	cards_available
 clears:
-	cardsUsed
-	cardsDisplayed
+	cards_used
+	cards_displayed
 =end
 def shuffle_deck
 	$cards_available.push(*$cards_used)
