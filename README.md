@@ -25,8 +25,10 @@ $ruby -v # confirm it works
 
 ## How to play this project
 
-```python
-To run: $ruby lib/set.rb
+To run the game, enter:
+
+```
+$ruby lib/set.rb
 ```
 
 Enter players names e.g: Nick Sara Kate
@@ -34,9 +36,11 @@ Enter players names e.g: Nick Sara Kate
 Player who first sees a set enters their name followed by the index of the three cards
 they choose e.g Nick 3 6 7.
 
-Player enters "" when no set is found to add additional cards from the deck.
+Player just clicks enter when no set is found to add additional cards from the deck.
 
 Player enters "quit" when they wish to end game.
+
+To not continue playing after a game, enter "no" or "n" at the prompt
 
 ## Testing
 
