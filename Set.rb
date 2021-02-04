@@ -102,8 +102,8 @@ end
 =begin
 ########################################################################
 =end
-def addRandomAvailableCardsToDisplayed(numPlayers)
-	for i in 0...numPlayers
+def addRandomAvailableCardsToDisplayed(numCards)
+	for i in 0...numCards
 		addRandomCardFromAvailableToDisplayed()
 	end
 end
